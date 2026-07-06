@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NextReach | Ecommerce Analytics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="nav">
+    <div class="brand">NextReach</div>
+    <a href="/admin" class="admin-link">Admin View</a>
+</header>
+
+<main class="hero">
+    <section class="hero-content">
+        <div class="badge">B2B Ecommerce Analytics</div>
+        <h1>Turn ecommerce data into revenue decisions.</h1>
+        <p>
+            NextReach helps mid-market ecommerce teams understand conversion,
+            retention, product performance and campaign ROI from one clean dashboard.
+        </p>
+
+        <div class="hero-actions">
+            <button id="open-chat" class="primary-btn">Contact Sales</button>
+            <a href="/product-tour" class="secondary-btn tour-link">View Product Tour</a>
+        </div>
+    </section>
+
+    <section class="dashboard-card">
+        <div class="card-header">
+            <span>Revenue Overview</span>
+            <strong>+18.4%</strong>
+        </div>
+        <div class="chart-bars">
+            <span style="height: 35%"></span>
+            <span style="height: 55%"></span>
+            <span style="height: 48%"></span>
+            <span style="height: 74%"></span>
+            <span style="height: 68%"></span>
+            <span style="height: 90%"></span>
+        </div>
+    </section>
+</main>
+
+<section class="social-proof">
+    <p>Trusted by ecommerce teams using</p>
+    <div class="logo-row">
+        <span>Shopify</span>
+        <span>WooCommerce</span>
+        <span>BigCommerce</span>
+        <span>Stripe</span>
+    </div>
+</section>
+
+<section class="testimonial-section">
+    <div class="testimonial-card">
+        <strong>★★★★★</strong>
+        <p>“NextReach helped us understand where revenue was leaking and gave our team one place to track growth.”</p>
+        <span>Sarah Collins — Urban Basket</span>
+    </div>
+</section>
+
+<section class="pricing-section">
+    <h2>Simple plans for growing ecommerce teams</h2>
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <h3>Starter</h3>
+            <strong>$299/mo</strong>
+            <p>For smaller teams exploring analytics.</p>
+        </div>
+        <div class="pricing-card featured">
+            <h3>Growth</h3>
+            <strong>$799/mo</strong>
+            <p>For teams that need revenue, campaign and product insights.</p>
+        </div>
+        <div class="pricing-card">
+            <h3>Enterprise</h3>
+            <strong>Custom</strong>
+            <p>For larger ecommerce teams with advanced reporting needs.</p>
+        </div>
+    </div>
+</section>
+
+<div id="chat-widget" class="chat-widget hidden">
+    <div class="chat-header">
+        <div>
+            <strong>NextReach Contact Agent</strong>
+            <small>Usually takes under 2 minutes</small>
+        </div>
+        <button id="close-chat">×</button>
+    </div>
+
+    <div class="chat-progress">
+    <div class="chat-progress-top">
+        <span id="chat-progress-text">Step 1 / 10</span>
+        <span>Sales request</span>
+    </div>
+    <div class="chat-progress-track">
+        <div id="chat-progress-bar"></div>
+    </div>
+</div>
+
+    <div id="chat-messages" class="chat-messages"></div>
+
+    <div class="chat-input-area">
+        <input id="chat-input" type="text" placeholder="Type your answer...">
+        <button id="send-message">Send</button>
+    </div>
+</div>
+
+<script src="/static/chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NextReach Admin View</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="nav">
+    <div class="brand">NextReach Admin</div>
+    <div>
+        <a href="/" class="admin-link">Landing Page</a>
+        <a href="/api/leads.csv" class="admin-link">Export CSV</a>
+    </div>
+</header>
+
+<main class="admin-container">
+    <div class="admin-top">
+        <div>
+            <h1>Inbound Contact Requests</h1>
+            <p>Sales-ready chatbot submissions, sorted by newest first.</p>
+        </div>
+        <input id="lead-search" class="search-input" placeholder="Search company, email, need...">
+    </div>
+
+    <section class="summary-cards">
+        <div class="summary-card">
+            <span>Total Leads</span>
+            <strong>{{ leads|length }}</strong>
+        </div>
+        <div class="summary-card">
+            <span>High Quality</span>
+            <strong>{{ leads|selectattr("lead_quality", "equalto", "High")|list|length }}</strong>
+        </div>
+        <div class="summary-card">
+            <span>New Leads</span>
+            <strong>{{ leads|selectattr("status", "equalto", "New")|list|length }}</strong>
+        </div>
+        <div class="summary-card">
+    <span>Urgent Leads</span>
+    <strong>0</strong>
+</div>
+    </section>
+
+    <section class="admin-chart-card">
+    <div class="chart-title">
+        <h2>Lead Quality Distribution</h2>
+        <p>Quick view of inbound lead health.</p>
+    </div>
+
+    {% set high_count = leads|selectattr("lead_quality", "equalto", "High")|list|length %}
+    {% set medium_count = leads|selectattr("lead_quality", "equalto", "Medium")|list|length %}
+    {% set low_count = leads|selectattr("lead_quality", "equalto", "Low")|list|length %}
+
+    <div class="quality-bars">
+        <div>
+            <span>🔥 Hot / High</span>
+            <div class="bar-track"><div class="bar-fill high-bar" style="width: {{ high_count * 25 }}%"></div></div>
+            <strong>{{ high_count }}</strong>
+        </div>
+        <div>
+            <span>🟢 Warm / Medium</span>
+            <div class="bar-track"><div class="bar-fill medium-bar" style="width: {{ medium_count * 25 }}%"></div></div>
+            <strong>{{ medium_count }}</strong>
+        </div>
+        <div>
+            <span>⚪ Cold / Low</span>
+            <div class="bar-track"><div class="bar-fill low-bar" style="width: {{ low_count * 25 }}%"></div></div>
+            <strong>{{ low_count }}</strong>
+        </div>
+    </div>
+</section>
+
+
+
+    <div class="lead-grid">
+        {% for lead in leads %}
+        <article class="lead-card" data-search="{{ lead.company }} {{ lead.email }} {{ lead.need }} {{ lead.lead_quality }} {{ lead.status }}">
+            <div class="lead-card-top">
+                <div>
+                    <h2>{{ lead.company }}</h2>
+                    <p>{{ lead.name }}{% if lead.role %} — {{ lead.role }}{% endif %}</p>
+                </div>
+                <div class="badges">
+                    <span class="quality {{ lead.lead_quality|lower }}">{{ lead.lead_quality }}</span>
+                    <span class="status-badge {{ lead.status|lower }}">{{ lead.status }}</span>
+                </div>
+            </div>
+
+            <p class="summary">{{ lead.summary }}</p>
+
+            <div class="next-action">
+                <strong>Next Best Action</strong>
+                <p>{{ lead.next_best_action or "Review this lead manually." }}</p>
+            </div>
+
+            <div class="lead-meta">
+                <span>Score: <strong>{{ lead.lead_score }}</strong></span>
+                <span>Urgency: <strong>{{ lead.urgency }}</strong></span>
+                <span>Budget: <strong>{{ lead.budget or "Not provided" }}</strong></span>
+                <span>Platform: <strong>{{ lead.ecommerce_platform or "Unknown" }}</strong></span>
+            </div>
+
+            <div class="contact-box">
+                <span>Email: {{ lead.email }}</span>
+                <span>Website: {{ lead.website or "Not provided" }}</span>
+                <span>Preferred: {{ lead.preferred_contact or "Not provided" }}</span>
+                <span>Created: {{ lead.created_at.strftime("%Y-%m-%d %H:%M") }}</span>
+            </div>
+
+            <p class="need-text">{{ lead.need }}</p>
+
+            <div class="admin-actions">
+                <select data-id="{{ lead.id }}" class="status-select">
+                    <option value="New" {% if lead.status == "New" %}selected{% endif %}>New</option>
+                    <option value="Contacted" {% if lead.status == "Contacted" %}selected{% endif %}>Contacted</option>
+                    <option value="Qualified" {% if lead.status == "Qualified" %}selected{% endif %}>Qualified</option>
+                    <option value="Closed" {% if lead.status == "Closed" %}selected{% endif %}>Closed</option>
+                    <option value="Rejected" {% if lead.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                </select>
+
+                <textarea data-id="{{ lead.id }}" class="notes-input" placeholder="Internal notes...">{{ lead.internal_notes or "" }}</textarea>
+                <button data-id="{{ lead.id }}" class="save-note-btn">Save</button>
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            <h2>No leads yet</h2>
+            <p>Submit a test request from the landing page chatbot.</p>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+<script>
+const searchInput = document.getElementById("lead-search");
+
+searchInput.addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    document.querySelectorAll(".lead-card").forEach(card => {
+        const haystack = card.dataset.search.toLowerCase();
+        card.style.display = haystack.includes(query) ? "block" : "none";
+    });
+});
+
+document.querySelectorAll(".status-select").forEach(select => {
+    select.addEventListener("change", async function () {
+        await fetch(`/api/leads/${this.dataset.id}`, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({status: this.value})
+        });
+        location.reload();
+    });
+});
+
+document.querySelectorAll(".save-note-btn").forEach(button => {
+    button.addEventListener("click", async function () {
+        const id = this.dataset.id;
+        const textarea = document.querySelector(`.notes-input[data-id="${id}"]`);
+
+        await fetch(`/api/leads/${id}`, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({internal_notes: textarea.value})
+        });
+
+        this.textContent = "Saved";
+        setTimeout(() => this.textContent = "Save", 1200);
+    });
+});
+</script>
+</body>
+</html>
