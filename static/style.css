@@ -877,3 +877,222 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* ---------- Premium polish layer ---------- */
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 32%),
+        radial-gradient(circle at top right, rgba(99, 102, 241, 0.10), transparent 28%),
+        #f7f8fb;
+}
+
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.brand {
+    background: linear-gradient(135deg, #111827, #2563eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero {
+    position: relative;
+}
+
+.hero-content {
+    animation: fadeUp 0.7s ease both;
+}
+
+.dashboard-card,
+.tour-dashboard,
+.lead-card,
+.summary-card,
+.admin-chart-card,
+.feature-card,
+.pricing-card,
+.testimonial-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-card:hover,
+.lead-card:hover,
+.summary-card:hover,
+.admin-chart-card:hover,
+.feature-card:hover,
+.pricing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.13);
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    box-shadow: 0 14px 34px rgba(37, 99, 235, 0.28);
+}
+
+.primary-btn:hover,
+.chat-input-area button:hover,
+.admin-actions button:hover {
+    transform: translateY(-1px);
+    opacity: 0.96;
+}
+
+.secondary-btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.secondary-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+.chat-widget {
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    animation: popIn 0.22s ease both;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #111827, #1e3a8a);
+}
+
+.message.bot {
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+}
+
+.message.user {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+}
+
+.chat-input-area input:focus,
+.search-input:focus,
+.admin-actions textarea:focus,
+.admin-actions select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.badge {
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.14);
+}
+
+.hero h1,
+.tour-hero h1,
+.admin-top h1,
+.pricing-section h2,
+.feature-section h2,
+.workflow-section h2,
+.faq-section h2 {
+    color: #0f172a;
+}
+
+.chart-bars span {
+    background: linear-gradient(180deg, #93c5fd, #2563eb);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.social-proof,
+.pricing-section,
+.testimonial-section {
+    border-top: 1px solid rgba(229, 231, 235, 0.75);
+}
+
+.logo-row span {
+    background: rgba(255, 255, 255, 0.76);
+    backdrop-filter: blur(10px);
+}
+
+.pricing-card.featured {
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card.featured::before {
+    content: "Most Popular";
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: #2563eb;
+    color: white;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 7px 10px;
+    border-radius: 999px;
+}
+
+.lead-card {
+    border-left: 5px solid #e5e7eb;
+}
+
+.lead-card:has(.quality.high) {
+    border-left-color: #16a34a;
+}
+
+.lead-card:has(.quality.medium) {
+    border-left-color: #f59e0b;
+}
+
+.lead-card:has(.quality.low) {
+    border-left-color: #ef4444;
+}
+
+.next-action {
+    background: linear-gradient(135deg, #111827, #1e3a8a);
+}
+
+.tour-dashboard {
+    background:
+        radial-gradient(circle at top right, rgba(96, 165, 250, 0.24), transparent 38%),
+        #111827;
+}
+
+.tour-metric-grid div {
+    transition: transform 0.2s ease;
+}
+
+.tour-metric-grid div:hover {
+    transform: scale(1.02);
+}
+
+.empty-state {
+    border: 1px dashed #cbd5e1;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        padding-top: 36px;
+    }
+
+    .nav {
+        height: auto;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        gap: 12px;
+    }
+}
